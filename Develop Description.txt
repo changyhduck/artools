@@ -1,0 +1,6 @@
+1. 專案描述
+本專案是一個python專案，主程式是artool.py, 執行在Linux Console之下。
+它以textual作為UI Framework，將畫面輸出在Linux Console上。
+用戶操作UI所需要的執行程序放在Lib目錄下，讓artool.py呼叫。
+
+請在UI上添加離開程式的方法，用button或menu
