@@ -96,17 +96,18 @@ def show_install_modules(stdscr):
                             success = False
                             break
                     if success:
-                        stdscr.addstr(4, 2, "Installation successful. Execute after_install_module.sh? (y/n)")
+                        stdscr.clear()
+                        stdscr.addstr(2, 2, "Installation successful. Execute after_install_module.sh? (y/n)")
                         stdscr.refresh()
                         key = stdscr.getch()
                         if key == ord('y'):
                             try:
                                 subprocess.run(["bash", "after_install_module.sh"], check=True)
-                                stdscr.addstr(6, 2, "Script executed successfully. Press any key...")
+                                stdscr.addstr(4, 2, "Script executed successfully. Press any key...")
                             except subprocess.CalledProcessError as e:
-                                stdscr.addstr(6, 2, f"Error executing script: {e}. Press any key...")
+                                stdscr.addstr(4, 2, f"Error executing script: {e}. Press any key...")
                         else:
-                            stdscr.addstr(6, 2, "Press any key...")
+                            stdscr.addstr(4, 2, "Press any key...")
                         stdscr.refresh()
                         stdscr.getch()
                 break

@@ -10,6 +10,8 @@
     {"name": "acpid", "is_group": false, "default_selected": true},
     {"name": "smp_utils", "is_group": false, "default_selected": true},
     {"name": "sgpio", "is_group": false, "default_selected": true},
-    {"name": "sshpass.x86_64", "is_group": false, "default_selected": true}
+    {"name": "sshpass.x86_64", "is_group": false, "default_selected": true},
+    {"name": "ctdb", "is_group": false, "default_selected": true},
+    {"name": "ssmtp-2.64-35.fc40.x86_64", "is_group": false, "default_selected": true}
 ]
 
