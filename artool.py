@@ -6,7 +6,7 @@ import install_module
 import install_zfs
 import install_web
 
-MENU_ITEMS = ["System Info", "Install Modules", "ZFS Install", "Web Install", "Network Setting", "Reboot", "Exit"]
+MENU_ITEMS = ["System Info", "Install Modules", "Change Sound", "After", "ZFS Install", "Web Install", "Network Setting", "Reboot", "Exit"]
 
 def draw_menu(stdscr, selected_idx):
     stdscr.clear()
@@ -104,6 +104,44 @@ def show_reboot(stdscr):
         subprocess.run(["reboot"])
     # If 'n' or other, do nothing, return
 
+def show_change_sound(stdscr):
+    stdscr.clear()
+    stdscr.addstr(1, 2, "Change Sound Settings")
+    stdscr.addstr(3, 2, "This will run change_sound.sh. Confirm? (y/n)")
+    stdscr.refresh()
+    key = stdscr.getch()
+    if key == ord('y'):
+        import subprocess
+        try:
+            subprocess.run(["bash", "change_sound.sh"], check=True)
+            stdscr.addstr(5, 2, "Sound settings changed successfully.")
+        except subprocess.CalledProcessError:
+            stdscr.addstr(5, 2, "Error changing sound settings.")
+    else:
+        stdscr.addstr(5, 2, "Operation cancelled.")
+    stdscr.addstr(7, 2, "Press any key to return to menu.")
+    stdscr.refresh()
+    stdscr.getch()
+
+def show_after(stdscr):
+    stdscr.clear()
+    stdscr.addstr(1, 2, "Run After Script")
+    stdscr.addstr(3, 2, "This will run after.sh. Confirm? (y/n)")
+    stdscr.refresh()
+    key = stdscr.getch()
+    if key == ord('y'):
+        import subprocess
+        try:
+            subprocess.run(["bash", "after.sh"], check=True)
+            stdscr.addstr(5, 2, "After script executed successfully.")
+        except subprocess.CalledProcessError:
+            stdscr.addstr(5, 2, "Error executing after script.")
+    else:
+        stdscr.addstr(5, 2, "Operation cancelled.")
+    stdscr.addstr(7, 2, "Press any key to return to menu.")
+    stdscr.refresh()
+    stdscr.getch()
+
 def main(stdscr):
     curses.curs_set(0)
     curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_CYAN)
@@ -118,19 +156,24 @@ def main(stdscr):
         elif key == curses.KEY_DOWN and selected_idx < len(MENU_ITEMS) - 1:
             selected_idx += 1
         elif key in [curses.KEY_ENTER, ord('\n')]:
-            if MENU_ITEMS[selected_idx] == "System Info":
+            selected = MENU_ITEMS[selected_idx]
+            if selected == "System Info":
                 show_system_info(stdscr)
-            elif MENU_ITEMS[selected_idx] == "Install Modules":
+            elif selected == "Install Modules":
                 show_install_modules(stdscr)
-            elif MENU_ITEMS[selected_idx] == "ZFS Install":
+            elif selected == "Change Sound":
+                show_change_sound(stdscr)
+            elif selected == "After":
+                show_after(stdscr)
+            elif selected == "ZFS Install":
                 show_zfs_install(stdscr)
-            elif MENU_ITEMS[selected_idx] == "Web Install":
+            elif selected == "Web Install":
                 show_web_install(stdscr)
-            elif MENU_ITEMS[selected_idx] == "Network Setting":
+            elif selected == "Network Setting":
                 show_network_setting(stdscr)
-            elif MENU_ITEMS[selected_idx] == "Reboot":
+            elif selected == "Reboot":
                 show_reboot(stdscr)
-            elif MENU_ITEMS[selected_idx] == "Exit":
+            elif selected == "Exit":
                 break
 
 if __name__ == "__main__":
