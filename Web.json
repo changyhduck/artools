@@ -1,6 +1,7 @@
 [
-    {"name": "kernel-tools", "is_group": false, "default_selected": true},
-    {"name": "Xfce Desktop", "is_group": true, "default_selected": true},
-    {"name": "python-pip", "is_group": false, "default_selected": false},
-    {"name": "git", "is_group": false, "default_selected": false}
+    {"name": "Security Lab", "is_group": true, "default_selected": true},
+    {"name": "Web Server", "is_group": true, "default_selected": true},
+    {"name": "mariadb", "is_group": false, "default_selected": true},
+    {"name": "mariadb-server", "is_group": false, "default_selected": true},
+    {"name": "sqlite", "is_group": false, "default_selected": true}
 ]
