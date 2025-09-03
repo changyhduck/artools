@@ -1,0 +1,6 @@
+[
+    {"name": "kernel-tools", "is_group": false, "default_selected": true},
+    {"name": "Xfce Desktop", "is_group": true, "default_selected": true},
+    {"name": "python-pip", "is_group": false, "default_selected": false},
+    {"name": "git", "is_group": false, "default_selected": false}
+]
