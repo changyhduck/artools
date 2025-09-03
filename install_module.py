@@ -17,6 +17,12 @@ def show_install_modules(stdscr):
     selected_file = None
     while selected_file is None:
         stdscr.clear()
+        h, w = stdscr.getmaxyx()
+        if 4 + len(json_files) >= h:
+            stdscr.addstr(2, 2, "Too many JSON files to display. Press any key...")
+            stdscr.refresh()
+            stdscr.getch()
+            return
         stdscr.addstr(2, 2, "Select a JSON file:")
         for i, f in enumerate(json_files):
             attr = curses.A_REVERSE if i == current_idx else curses.A_NORMAL
@@ -45,6 +51,12 @@ def show_install_modules(stdscr):
 
     while True:
         stdscr.clear()
+        h, w = stdscr.getmaxyx()
+        if 2 + len(modules) + 2 >= h:
+            stdscr.addstr(2, 2, "Terminal too small to display all modules. Resize and try again.")
+            stdscr.refresh()
+            stdscr.getch()
+            return
         # Draw checkboxes
         for i, mod in enumerate(modules):
             check = "[X]" if selected[i] else "[ ]"

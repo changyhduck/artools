@@ -144,7 +144,11 @@ def show_after(stdscr):
 
 def main(stdscr):
     curses.curs_set(0)
-    curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_CYAN)
+    if curses.can_change_color():
+        curses.init_color(8, 1000, 1000, 500)  # Light yellow
+        curses.init_pair(1, curses.COLOR_BLACK, 8)
+    else:
+        curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_YELLOW)
     selected_idx = 0
 
     while True:
