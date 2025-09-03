@@ -1,6 +1,15 @@
 [
     {"name": "kernel-tools", "is_group": false, "default_selected": true},
     {"name": "Xfce Desktop", "is_group": true, "default_selected": false},
-    {"name": "python-pip", "is_group": false, "default_selected": false},
-    {"name": "git", "is_group": false, "default_selected": false}
+    {"name": "firefox", "is_group": false, "default_selected": false},
+    {"name": "Virtualization", "is_group": true, "default_selected": true},
+    {"name": "glusterfs-server", "is_group": false, "default_selected": true},
+    {"name": "samba", "is_group": false, "default_selected": true},
+    {"name": "setserial.x86_64", "is_group": false, "default_selected": true},
+    {"name": "msmtp", "is_group": false, "default_selected": true},
+    {"name": "acpid", "is_group": false, "default_selected": true},
+    {"name": "smp_utils", "is_group": false, "default_selected": true},
+    {"name": "sgpio", "is_group": false, "default_selected": true},
+    {"name": "sshpass.x86_64", "is_group": false, "default_selected": true}
 ]
+
