@@ -12,7 +12,7 @@ def draw_menu(stdscr, selected_idx):
     stdscr.clear()
     h, w = stdscr.getmaxyx()
     for idx, item in enumerate(MENU_ITEMS):
-        x = w//2 - len(item)//2
+        x = 2  # Left-align the menu items
         y = h//2 - len(MENU_ITEMS)//2 + idx
         if idx == selected_idx:
             stdscr.attron(curses.color_pair(1))
