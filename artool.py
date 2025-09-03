@@ -6,7 +6,7 @@ import install_module
 import install_zfs
 import install_web
 
-MENU_ITEMS = ["System Info", "Install Modules", "ZFS Install", "Web Install", "Network Setting", "Exit"]
+MENU_ITEMS = ["System Info", "Install Modules", "ZFS Install", "Web Install", "Network Setting", "Reboot", "Exit"]
 
 def draw_menu(stdscr, selected_idx):
     stdscr.clear()
@@ -94,6 +94,16 @@ def show_network_setting(stdscr):
     stdscr.refresh()
     stdscr.getch()
 
+def show_reboot(stdscr):
+    stdscr.clear()
+    stdscr.addstr(2, 2, "Are you sure you want to reboot? (y/n)")
+    stdscr.refresh()
+    key = stdscr.getch()
+    if key == ord('y'):
+        import subprocess
+        subprocess.run(["reboot"])
+    # If 'n' or other, do nothing, return
+
 def main(stdscr):
     curses.curs_set(0)
     curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_CYAN)
@@ -118,6 +128,8 @@ def main(stdscr):
                 show_web_install(stdscr)
             elif MENU_ITEMS[selected_idx] == "Network Setting":
                 show_network_setting(stdscr)
+            elif MENU_ITEMS[selected_idx] == "Reboot":
+                show_reboot(stdscr)
             elif MENU_ITEMS[selected_idx] == "Exit":
                 break
 
