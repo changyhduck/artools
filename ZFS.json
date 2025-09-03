@@ -1,6 +1,5 @@
 [
-    {"name": "kernel-tools", "is_group": false, "default_selected": true},
-    {"name": "Xfce Desktop", "is_group": true, "default_selected": true},
-    {"name": "python-pip", "is_group": false, "default_selected": false},
-    {"name": "git", "is_group": false, "default_selected": false}
+    {"name": "https://zfsonlinux.org/fedora/zfs-release-2-3$(rpm --eval \"%{dist}\").noarch.rpm", "is_group": false, "default_selected": true},
+    {"name": "kernel-devel", "is_group": false, "default_selected": true},
+    {"name": "zfs", "is_group": false, "default_selected": true}
 ]

@@ -60,6 +60,10 @@ def show_zfs_install(stdscr):
                     stdscr.clear()
                     stdscr.addstr(2, 2, f"Installing: {', '.join([m['name'] for m in selected_modules])}")
                     stdscr.refresh()
+                    try:
+                        subprocess.run(["rpm", "-e", "--nodeps", "zfs-fuse"], check=True)
+                    except subprocess.CalledProcessError:
+                        pass  # Ignore if not installed
                     success = True
                     for mod in selected_modules:
                         try:
