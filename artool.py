@@ -3,8 +3,8 @@ import platform
 import os
 import requests
 import install_module
-import install_zfs
 import install_web
+import zfs_install
 
 MENU_ITEMS = ["System Info", "Install Modules", "Change Sound", "After", "ZFS Install", "Web Install", "Network Setting", "Reboot", "Exit"]
 
@@ -81,11 +81,11 @@ def show_system_info(stdscr):
 def show_install_modules(stdscr):
     install_module.show_install_modules(stdscr)
 
-def show_zfs_install(stdscr):
-    install_zfs.show_zfs_install(stdscr)
-
 def show_web_install(stdscr):
     install_web.show_web_install(stdscr)
+
+def show_zfs_install(stdscr):
+    zfs_install.show_zfs_install(stdscr)
 
 def show_network_setting(stdscr):
     stdscr.clear()

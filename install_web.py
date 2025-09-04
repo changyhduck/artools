@@ -73,8 +73,22 @@ def show_web_install(stdscr):
                             break
                     if success:
                         stdscr.addstr(4, 2, "Installation successful. Press any key...")
-                    stdscr.refresh()
-                    stdscr.getch()
+                        stdscr.refresh()
+                        stdscr.getch()
+                        # Execute web_install.sh
+                        stdscr.clear()
+                        stdscr.addstr(2, 2, "Executing web_install.sh...")
+                        stdscr.refresh()
+                        try:
+                            subprocess.run(["bash", "web_install.sh"], check=True)
+                            stdscr.addstr(4, 2, "web_install.sh executed successfully. Press any key...")
+                        except subprocess.CalledProcessError as e:
+                            stdscr.addstr(4, 2, f"Error executing web_install.sh: {e}. Press any key...")
+                        stdscr.refresh()
+                        stdscr.getch()
+                    else:
+                        stdscr.refresh()
+                        stdscr.getch()
                 break
             elif button_selected == 1:  # Exit
                 break

@@ -2,6 +2,8 @@
 #systemctl set-default graphical.target
 systemctl enable glusterfsd.service
 #systemctl enable glusterd.service
+systemctl enable libvirtd
+#systemctl enable virtlogd
 cp rc-local.service /etc/systemd/system/
 cp rc.local /etc/rc.d/
 chmod +x /etc/rc.d/rc.local
