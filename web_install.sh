@@ -1,6 +1,5 @@
 #!/bin/bash
 dnf -y remove php
-dnf -y install remi-release-38-5.fc38.remi.noarch.rpm
 dnf --enablerepo=remi -y install php82
 dnf --enablerepo=remi -y install php82-php php82-php-xml php82-php-mysqlnd php82-php-opcache php82-php-pgsql php82-php-process php82-php-ldap php82-php-mbstring php82-php-mcrypt php82-php-gd php82-php-bcmath php82-php-pecl-igbinary php82-php-pecl-apcu php82-php-pear php82-php-pecl-memcached php82-php-pecl-memcache
 ln -s /usr/bin/php82 /usr/bin/php

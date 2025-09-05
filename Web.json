@@ -1,6 +1,7 @@
 [
     {"name": "Security Lab", "is_group": true, "default_selected": true},
     {"name": "remi-release-38-5.fc38.remi.noarch.rpm", "is_group": false, "default_selected": true},
+    {"name": "remi-release-40-1.fc40.remi.noarch.rpm", "is_group": false, "default_selected": false},
     {"name": "Web Server", "is_group": true, "default_selected": true},
     {"name": "mariadb", "is_group": false, "default_selected": true},
     {"name": "mariadb-server", "is_group": false, "default_selected": true},
