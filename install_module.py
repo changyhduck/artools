@@ -6,7 +6,7 @@ import os
 def show_install_modules(stdscr):
     curses.curs_set(0)
     # Get list of json files
-    json_files = [f for f in os.listdir('.') if f.endswith('.json')]
+    json_files = [f for f in os.listdir('.') if f.startswith('Acro') and f.endswith('.json')]
     if not json_files:
         stdscr.clear()
         stdscr.addstr(2, 2, "No JSON files found. Press any key...")
@@ -14,11 +14,12 @@ def show_install_modules(stdscr):
         stdscr.getch()
         return
     current_idx = 0
+    button_selected = 0  # 0 for Install, 1 for Exit
     selected_file = None
     while selected_file is None:
         stdscr.clear()
         h, w = stdscr.getmaxyx()
-        if 4 + len(json_files) >= h:
+        if 4 + len(json_files) + 2 >= h:
             stdscr.addstr(2, 2, "Too many JSON files to display. Press any key...")
             stdscr.refresh()
             stdscr.getch()
@@ -27,14 +28,35 @@ def show_install_modules(stdscr):
         for i, f in enumerate(json_files):
             attr = curses.A_REVERSE if i == current_idx else curses.A_NORMAL
             stdscr.addstr(4 + i, 2, f, attr)
+        # Draw buttons
+        install_attr = curses.A_REVERSE if button_selected == 0 else curses.A_NORMAL
+        exit_attr = curses.A_REVERSE if button_selected == 1 else curses.A_NORMAL
+        stdscr.addstr(4 + len(json_files) + 2, 2, "[Install]", install_attr)
+        stdscr.addstr(4 + len(json_files) + 2, 12, "[Exit]", exit_attr)
         stdscr.refresh()
+
         key = stdscr.getch()
-        if key == curses.KEY_UP and current_idx > 0:
-            current_idx -= 1
-        elif key == curses.KEY_DOWN and current_idx < len(json_files) - 1:
-            current_idx += 1
+        if key == curses.KEY_UP:
+            if current_idx > 0:
+                current_idx -= 1
+            elif button_selected == 0:
+                current_idx = len(json_files) - 1  # Wrap to last file
+        elif key == curses.KEY_DOWN:
+            if current_idx < len(json_files) - 1:
+                current_idx += 1
+            else:
+                button_selected = 0  # Move to buttons
+        elif key == curses.KEY_LEFT:
+            if button_selected > 0:
+                button_selected -= 1
+        elif key == curses.KEY_RIGHT:
+            if button_selected < 1:
+                button_selected += 1
         elif key in [curses.KEY_ENTER, ord('\n')]:
-            selected_file = json_files[current_idx]
+            if button_selected == 0:  # Install
+                selected_file = json_files[current_idx]
+            elif button_selected == 1:  # Exit
+                return
     # Load the selected file
     try:
         with open(selected_file, 'r') as f:
