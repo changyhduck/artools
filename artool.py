@@ -2,11 +2,12 @@ import curses
 import platform
 import os
 import requests
+import subprocess
 import install_module
 import install_web
 import zfs_install
 
-MENU_ITEMS = ["System Info", "Install Modules", "Change Sound", "After", "ZFS Install", "Web Install", "Network Setting", "Reboot", "Exit"]
+MENU_ITEMS = ["System Info", "Install Modules", "Change Sound", "After", "ZFS Install", "Web Install", "SNMP Install", "First Firmware Install", "Network Setting", "Reboot", "Exit"]
 
 def draw_menu(stdscr, selected_idx):
     stdscr.clear()
@@ -86,6 +87,85 @@ def show_web_install(stdscr):
 
 def show_zfs_install(stdscr):
     zfs_install.show_zfs_install(stdscr)
+
+def show_snmp_install(stdscr):
+    stdscr.clear()
+    stdscr.addstr(1, 2, "Install SNMP Tools")
+    stdscr.addstr(3, 2, "This will run snmp_install.sh. Confirm? (y/n)")
+    stdscr.refresh()
+    key = stdscr.getch()
+    if key == ord('y'):
+        import subprocess
+        try:
+            subprocess.run(["bash", "snmp_install.sh"], check=True)
+            stdscr.addstr(5, 2, "SNMP tools installed successfully.")
+        except subprocess.CalledProcessError:
+            stdscr.addstr(5, 2, "Error installing SNMP tools.")
+    else:
+        stdscr.addstr(5, 2, "Operation cancelled.")
+    stdscr.addstr(7, 2, "Press any key to return to menu.")
+    stdscr.refresh()
+    stdscr.getch()
+
+def show_first_firmware_install(stdscr):
+    curses.curs_set(0)
+    # Get list of firmware*.sh files
+    firmware_files = [f for f in os.listdir('.') if f.startswith('firmware') and f.endswith('.sh')]
+    if not firmware_files:
+        stdscr.clear()
+        stdscr.addstr(2, 2, "No firmware*.sh files found. Press any key...")
+        stdscr.refresh()
+        stdscr.getch()
+        return
+    current_idx = 0
+    button_selected = 0  # 0 for Install, 1 for Exit
+
+    while True:
+        stdscr.clear()
+        # Draw the list
+        for i, f in enumerate(firmware_files):
+            attr = curses.A_REVERSE if i == current_idx else curses.A_NORMAL
+            stdscr.addstr(2 + i, 2, f, attr)
+        # Draw buttons
+        install_attr = curses.A_REVERSE if button_selected == 0 else curses.A_NORMAL
+        exit_attr = curses.A_REVERSE if button_selected == 1 else curses.A_NORMAL
+        stdscr.addstr(2 + len(firmware_files) + 2, 2, "[Install]", install_attr)
+        stdscr.addstr(2 + len(firmware_files) + 2, 12, "[Exit]", exit_attr)
+        stdscr.refresh()
+
+        key = stdscr.getch()
+        if key == curses.KEY_UP:
+            if current_idx > 0:
+                current_idx -= 1
+            elif button_selected == 0:
+                current_idx = len(firmware_files) - 1  # Wrap to last file
+        elif key == curses.KEY_DOWN:
+            if current_idx < len(firmware_files) - 1:
+                current_idx += 1
+            else:
+                button_selected = 0  # Move to buttons
+        elif key == curses.KEY_LEFT:
+            if button_selected > 0:
+                button_selected -= 1
+        elif key == curses.KEY_RIGHT:
+            if button_selected < 1:
+                button_selected += 1
+        elif key in [curses.KEY_ENTER, ord('\n')]:
+            if button_selected == 0:  # Install
+                selected_file = firmware_files[current_idx]
+                stdscr.clear()
+                stdscr.addstr(2, 2, f"Running {selected_file}...")
+                stdscr.refresh()
+                try:
+                    subprocess.run(["bash", selected_file], check=True)
+                    stdscr.addstr(4, 2, "Script executed successfully. Press any key...")
+                except subprocess.CalledProcessError as e:
+                    stdscr.addstr(4, 2, f"Error executing script: {e}. Press any key...")
+                stdscr.refresh()
+                stdscr.getch()
+                break
+            elif button_selected == 1:  # Exit
+                break
 
 def show_network_setting(stdscr):
     stdscr.clear()
@@ -173,6 +253,10 @@ def main(stdscr):
                 show_zfs_install(stdscr)
             elif selected == "Web Install":
                 show_web_install(stdscr)
+            elif selected == "SNMP Install":
+                show_snmp_install(stdscr)
+            elif selected == "First Firmware Install":
+                show_first_firmware_install(stdscr)
             elif selected == "Network Setting":
                 show_network_setting(stdscr)
             elif selected == "Reboot":
