@@ -45,6 +45,8 @@ def show_install_modules(stdscr):
         stdscr.refresh()
         stdscr.getch()
         return
+    # Derive the script name
+    script_name = selected_file.replace('.json', '.sh')
     selected = [mod['default_selected'] for mod in modules]
     current_idx = 0
     button_selected = 0  # 0 for Install, 1 for Exit
@@ -109,12 +111,12 @@ def show_install_modules(stdscr):
                             break
                     if success:
                         stdscr.clear()
-                        stdscr.addstr(2, 2, "Installation successful. Execute after_install_module.sh? (y/n)")
+                        stdscr.addstr(2, 2, f"Installation successful. Execute {script_name}? (y/n)")
                         stdscr.refresh()
                         key = stdscr.getch()
                         if key == ord('y'):
                             try:
-                                subprocess.run(["bash", "after_install_module.sh"], check=True)
+                                subprocess.run(["bash", script_name], check=True)
                                 stdscr.addstr(4, 2, "Script executed successfully. Press any key...")
                             except subprocess.CalledProcessError as e:
                                 stdscr.addstr(4, 2, f"Error executing script: {e}. Press any key...")
